@@ -1,9 +1,9 @@
 """
 Emotion-Based Music Generator
-Main Entry Point
+Main Entry Point - FIXED VERSION
 
 Project: OOP Final Project
-Author: [Anggietha Isyah Prameswari] - [24091397079]
+Author: [Nama Kamu] - [NIM]
 Date: December 2025
 Description: Aplikasi untuk menghasilkan playlist musik berdasarkan mood/emosi pengguna
 """
@@ -18,6 +18,20 @@ from src.controllers.music_player import MusicPlayer
 from src.views.gui import MusicGeneratorGUI
 
 
+def get_absolute_path(relative_path):
+    """
+    Convert relative path to absolute path.
+    
+    Args:
+        relative_path (str): Relative path from project root
+        
+    Returns:
+        str: Absolute path
+    """
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_dir, relative_path)
+
+
 def load_songs_from_json():
     """
     Load song database from JSON file.
@@ -26,7 +40,7 @@ def load_songs_from_json():
     Returns:
         list: List of Song objects
     """
-    json_path = "data/songs.json"
+    json_path = get_absolute_path("data/songs.json")
     
     # Check if JSON file exists
     if os.path.exists(json_path):
@@ -72,21 +86,33 @@ def load_songs_from_json():
 def create_default_songs():
     """
     Create default song objects from assets/music folder.
-    Based on actual MP3 files: 12 songs (3 calm, 3 energetic, 3 happy, 3 sad)
+    Uses ABSOLUTE PATHS to ensure files are found.
     
     Returns:
         list: List of default Song objects
     """
     songs = []
     
-    # Define default songs based on your actual MP3 files
+    # Get absolute path to music directory
+    music_dir = get_absolute_path('assets/music')
+    
+    print(f"\nLooking for music files in: {music_dir}")
+    
+    # Check if music directory exists
+    if not os.path.exists(music_dir):
+        print(f"✗ ERROR: Music directory not found!")
+        print(f"  Expected: {music_dir}")
+        print(f"  Please create the directory and add MP3 files.")
+        return []
+    
+    # Define default songs with ABSOLUTE paths
     default_songs = [
         # ========== CALM SONGS (3) ==========
         {
             'song_id': 'song_001',
             'title': 'Calm Song 1',
             'artist': 'Relaxing Music',
-            'file_path': 'assets/music/calmsong1.mp3',
+            'file_path': os.path.join(music_dir, 'calmsong1.mp3'),
             'mood_tags': ['calm', 'relaxed', 'peaceful', 'meditation'],
             'tempo': 'slow',
             'genre': 'Ambient',
@@ -96,7 +122,7 @@ def create_default_songs():
             'song_id': 'song_002',
             'title': 'Calm Song 2',
             'artist': 'Relaxing Music',
-            'file_path': 'assets/music/calmsong2.mp3',
+            'file_path': os.path.join(music_dir, 'calmsong2.mp3'),
             'mood_tags': ['calm', 'relaxed', 'peaceful', 'sleep'],
             'tempo': 'slow',
             'genre': 'Ambient',
@@ -106,7 +132,7 @@ def create_default_songs():
             'song_id': 'song_003',
             'title': 'Calm Song 3',
             'artist': 'Relaxing Music',
-            'file_path': 'assets/music/calmsong3.mp3',
+            'file_path': os.path.join(music_dir, 'calmsong3.mp3'),
             'mood_tags': ['calm', 'relaxed', 'peaceful', 'focus'],
             'tempo': 'slow',
             'genre': 'Ambient',
@@ -118,7 +144,7 @@ def create_default_songs():
             'song_id': 'song_004',
             'title': 'Energetic Song 1',
             'artist': 'Workout Beats',
-            'file_path': 'assets/music/energeticsong1.mp3',
+            'file_path': os.path.join(music_dir, 'energeticsong1.mp3'),
             'mood_tags': ['energetic', 'motivated', 'active', 'workout'],
             'tempo': 'fast',
             'genre': 'Electronic',
@@ -128,7 +154,7 @@ def create_default_songs():
             'song_id': 'song_005',
             'title': 'Energetic Song 2',
             'artist': 'Workout Beats',
-            'file_path': 'assets/music/energeticsong2.mp3',
+            'file_path': os.path.join(music_dir, 'energeticsong2.mp3'),
             'mood_tags': ['energetic', 'motivated', 'active', 'exercise'],
             'tempo': 'fast',
             'genre': 'Electronic',
@@ -138,7 +164,7 @@ def create_default_songs():
             'song_id': 'song_006',
             'title': 'Energetic Song 3',
             'artist': 'Workout Beats',
-            'file_path': 'assets/music/energeticsong3.mp3',
+            'file_path': os.path.join(music_dir, 'energeticsong3.mp3'),
             'mood_tags': ['energetic', 'motivated', 'active', 'pump'],
             'tempo': 'fast',
             'genre': 'Electronic',
@@ -150,7 +176,7 @@ def create_default_songs():
             'song_id': 'song_007',
             'title': 'Happy Song 1',
             'artist': 'Cheerful Vibes',
-            'file_path': 'assets/music/happysong1.mp3',
+            'file_path': os.path.join(music_dir, 'happysong1.mp3'),
             'mood_tags': ['happy', 'joyful', 'cheerful', 'upbeat'],
             'tempo': 'medium',
             'genre': 'Pop',
@@ -160,7 +186,7 @@ def create_default_songs():
             'song_id': 'song_008',
             'title': 'Happy Song 2',
             'artist': 'Cheerful Vibes',
-            'file_path': 'assets/music/happysong2.mp3',
+            'file_path': os.path.join(music_dir, 'happysong2.mp3'),
             'mood_tags': ['happy', 'joyful', 'cheerful', 'fun'],
             'tempo': 'medium',
             'genre': 'Pop',
@@ -170,7 +196,7 @@ def create_default_songs():
             'song_id': 'song_009',
             'title': 'Happy Song 3',
             'artist': 'Cheerful Vibes',
-            'file_path': 'assets/music/happysong3.mp3',
+            'file_path': os.path.join(music_dir, 'happysong3.mp3'),
             'mood_tags': ['happy', 'joyful', 'cheerful', 'positive'],
             'tempo': 'medium',
             'genre': 'Pop',
@@ -182,7 +208,7 @@ def create_default_songs():
             'song_id': 'song_010',
             'title': 'Sad Song 1',
             'artist': 'Melancholic Soul',
-            'file_path': 'assets/music/sadsong1.mp3',
+            'file_path': os.path.join(music_dir, 'sadsong1.mp3'),
             'mood_tags': ['sad', 'melancholic', 'emotional', 'heartbreak'],
             'tempo': 'slow',
             'genre': 'Ballad',
@@ -192,7 +218,7 @@ def create_default_songs():
             'song_id': 'song_011',
             'title': 'Sad Song 2',
             'artist': 'Melancholic Soul',
-            'file_path': 'assets/music/sadsong2.mp3',
+            'file_path': os.path.join(music_dir, 'sadsong2.mp3'),
             'mood_tags': ['sad', 'melancholic', 'emotional', 'lonely'],
             'tempo': 'slow',
             'genre': 'Ballad',
@@ -202,7 +228,7 @@ def create_default_songs():
             'song_id': 'song_012',
             'title': 'Sad Song 3',
             'artist': 'Melancholic Soul',
-            'file_path': 'assets/music/sadsong3.mp3',
+            'file_path': os.path.join(music_dir, 'sadsong3.mp3'),
             'mood_tags': ['sad', 'melancholic', 'emotional', 'grief'],
             'tempo': 'slow',
             'genre': 'Ballad',
@@ -216,13 +242,14 @@ def create_default_songs():
     
     print("\nCreating song database from MP3 files...")
     for song_data in default_songs:
-        # Check if file exists
-        if os.path.exists(song_data['file_path']):
+        # Check if file exists with detailed error
+        file_path = song_data['file_path']
+        if os.path.exists(file_path):
             song = Song(
                 song_id=song_data['song_id'],
                 title=song_data['title'],
                 artist=song_data['artist'],
-                file_path=song_data['file_path'],
+                file_path=file_path,
                 mood_tags=song_data['mood_tags'],
                 tempo=song_data['tempo'],
                 genre=song_data['genre'],
@@ -233,11 +260,13 @@ def create_default_songs():
             print(f"  ✓ {song.get_title()} ({song.get_genre()})")
         else:
             songs_failed += 1
-            print(f"  ✗ File not found: {song_data['file_path']}")
+            print(f"  ✗ File not found: {os.path.basename(file_path)}")
+            print(f"     Full path: {file_path}")
     
     print(f"\nSummary: {songs_created} songs loaded successfully")
     if songs_failed > 0:
         print(f"Warning: {songs_failed} songs failed to load")
+        print(f"\nPlease ensure all MP3 files are in: {music_dir}")
     
     # Save to JSON for future use
     if songs:
@@ -256,10 +285,11 @@ def save_songs_to_json(songs):
     Args:
         songs (list): List of Song objects
     """
-    json_path = "data/songs.json"
+    json_path = get_absolute_path("data/songs.json")
     
     # Create data directory if not exists
-    os.makedirs("data", exist_ok=True)
+    data_dir = os.path.dirname(json_path)
+    os.makedirs(data_dir, exist_ok=True)
     
     # Convert Song objects to dictionaries
     songs_data = []

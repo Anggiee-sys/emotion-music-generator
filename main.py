@@ -3,7 +3,7 @@ Emotion-Based Music Generator
 Main Entry Point - FIXED VERSION
 
 Project: OOP Final Project
-Author: [Nama Kamu] - [NIM]
+Author: [Anggietha Isyah Prameswari] - [24091397079]
 Date: December 2025
 Description: Aplikasi untuk menghasilkan playlist musik berdasarkan mood/emosi pengguna
 """
@@ -382,7 +382,7 @@ def main():
     
     # Initialize user
     print("1. Initializing user profile...")
-    user = User(user_id="user_001", username="Default User")
+    user = User(user_id="user_001", username="Anggietha Isyah")
     print(f"   ✓ User created: {user.get_username()}\n")
     
     # Initialize recommendation engine
